@@ -223,7 +223,7 @@ public class Imager {
     }
 
 
-     public static boolean canVisualize() {
+     public static boolean canVisualizeEnfuserOutput() {
         return false;
     }
 

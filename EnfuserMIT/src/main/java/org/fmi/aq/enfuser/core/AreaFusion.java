@@ -30,7 +30,6 @@ import org.fmi.aq.essentials.netCdf.NcInfo;
 import org.fmi.aq.enfuser.core.output.OutlierReduction;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
-import org.fmi.aq.enfuser.datapack.source.DataBase;
 import org.fmi.aq.enfuser.ftools.FuserTools;
 import static org.fmi.aq.enfuser.ftools.FuserTools.arrayConvert;
 
@@ -963,4 +962,5 @@ public class AreaFusion {
         }
         return false;
     }
+
 }

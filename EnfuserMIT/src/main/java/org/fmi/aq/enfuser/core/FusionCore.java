@@ -51,7 +51,6 @@ import org.fmi.aq.enfuser.ftools.FastMath;
 import org.fmi.aq.enfuser.ftools.RotationCell;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.core.setup.Setup;
-import org.fmi.aq.enfuser.core.statistics.AvailabilityFilter;
 import org.fmi.aq.enfuser.core.assimilation.PersistentAdjustments;
 import org.fmi.aq.enfuser.meteorology.HashMetTask;
 import org.fmi.aq.essentials.geoGrid.ByteGeoGrid;
@@ -111,7 +110,6 @@ public class FusionCore extends DataCore{
     public Object jbar;
     public Object jbar2;
     
-    private AvailabilityFilter availabilityFilter_stats = null;
     public FootprintBank forms;
     public Sector sectorCalc = new Sector();
     public FastAreaGridder fastGridder;
@@ -1052,29 +1050,6 @@ private final GraphicsMod bars = new GraphicsMod();
             }
         return ba;
        }
-    }
-
-    public void addAvailabiltyFilter(String[] source_var) {
-        if (availabilityFilter_stats==null) {
-            availabilityFilter_stats = new AvailabilityFilter();
-        }
-        
-        String sourc = source_var[0];
-        String var = source_var[1];
-        EnfuserLogger.log(Level.INFO,this.getClass(),"Adding availability filter: " + sourc + " - " + var);
-        availabilityFilter_stats.addSourceVar_availabilityCondition(sourc, var);
-    }
-
-    public void printoutAvailabilityFilter() {
-        if (this.availabilityFilter_stats==null) return;    
-        Dtime start = datapack.getMinDt(true);
-        Dtime end =   datapack.getMaxDt(true);
-        availabilityFilter_stats.getUnavailableList(this, start, end, true);
-    }
-
-    public boolean sufficientDataForTime(FusionCore ens, Dtime current) {
-       if (this.availabilityFilter_stats==null) return true;
-       return availabilityFilter_stats.dataAvailable(ens, current);
     }
 
     public boolean hashedEmissionsAvailable(Observation ob, String osmLayerName) {

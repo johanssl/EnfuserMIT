@@ -300,13 +300,6 @@ public class Assimilator {
             return false;
         }
 
-        if (!ens.sufficientDataForTime(ens, time)) {
-            EnfuserLogger.log(Level.FINER,Assimilator.class,"Skip optimize overrides for " + time.getStringDate()
-                    + ": time filtered due to missing data.");
-            return false;
-        }
-        
-        
         AdjustmentBank oc = ens.getCurrentOverridesController();
         HourlyAdjustment existing = oc.get(time.systemHours(), 0, typeInt, ens.ops);
         if (existing != null) {
@@ -316,7 +309,6 @@ public class Assimilator {
             }
             return false;
         }
-        
         
         //check type
         if (ens.ops.VARA.isSecondary[typeInt]) {

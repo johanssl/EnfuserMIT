@@ -841,6 +841,35 @@ public class Dtime implements Serializable {
 
     }
 
+    public static String weekDayString(Dtime local, boolean simple) {
+        String s = "N/A";
+        boolean monfr = true;
 
+        if (local.dayOfWeek == Calendar.MONDAY) {
+            s = "Mon";
+        } else if (local.dayOfWeek == Calendar.TUESDAY) {
+            s = "Tue";
+        } else if (local.dayOfWeek == Calendar.WEDNESDAY) {
+            s = "Wed";
+        } else if (local.dayOfWeek == Calendar.THURSDAY) {
+            s = "Thu";
+        } else if (local.dayOfWeek == Calendar.FRIDAY) {
+            s = "Fri";
+        } else if (local.dayOfWeek == Calendar.SATURDAY) {
+            s = "Sat";
+            monfr = false;
+        } else if (local.dayOfWeek == Calendar.SUNDAY) {
+            s = "Sun";
+            monfr = false;
+
+        }
+
+        if (simple && monfr) {
+            return "Mon-Fri";
+        } else {
+            return s;
+        }
+
+    }
 
 }

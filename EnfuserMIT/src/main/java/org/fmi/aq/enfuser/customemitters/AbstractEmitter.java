@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.core.receptor.RPstack;
-import static org.fmi.aq.enfuser.core.statistics.StatsCruncher.weekDayString;
 import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
 import org.fmi.aq.enfuser.core.varproxy.EmitterProxies;
 import org.fmi.aq.enfuser.options.VarAssociations;
@@ -691,7 +690,7 @@ public abstract class AbstractEmitter {
         Dtime current = start.clone();
         while (current.systemHours() <= end.systemHours()) {
             Dtime[] allDates = ens.tzt.getDates(current);
-            String line = current.getStringDate() + ";" + weekDayString(allDates[TZT.LOCAL], false) + ";";
+            String line = current.getStringDate() + ";" + Dtime.weekDayString(allDates[TZT.LOCAL], false) + ";";
 
             for (AbstractEmitter ae : ages) {
 

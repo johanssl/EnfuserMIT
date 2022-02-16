@@ -7,21 +7,19 @@ package org.fmi.aq.interfacing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
 import org.fmi.aq.enfuser.core.FusionCore;
-import org.fmi.aq.enfuser.core.statistics.StatsCruncher;
-import org.fmi.aq.enfuser.ftools.FuserTools;
 import org.fmi.aq.enfuser.options.FusionOptions;
-import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.options.RunParameters;
-import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import org.fmi.aq.essentials.date.Dtime;
 
 /**
  *
  * @author johanssl
  */
 public class ArchStatProcessor {
+
+    public static void storeEvaluationDataToFile(FusionCore ens) {
+      
+    }
 
     
     public ArchStatProcessor() {
@@ -142,11 +140,5 @@ public class ArchStatProcessor {
 
     }
     
-    
-    public static void addCustomStatisticsForStatsCruncher(ArrayList<String> results,
-            FusionCore ens, StatsCruncher sc) {
-
-    }
-
 
 }

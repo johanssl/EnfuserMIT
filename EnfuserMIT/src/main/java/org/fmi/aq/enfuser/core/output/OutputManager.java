@@ -11,7 +11,6 @@ import org.fmi.aq.enfuser.ftools.FuserTools;
 import org.fmi.aq.enfuser.core.gaussian.puff.PuffPlatform;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.core.assimilation.AdjustmentBank;
-import org.fmi.aq.enfuser.core.statistics.EvalDatProcessor;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 import org.fmi.aq.essentials.geoGrid.GeoGrid;
@@ -78,20 +77,7 @@ public class OutputManager {
         //new output statistics 
         
         if (p.statsOutput()) {
-            try {
-                EvalDatProcessor.storeEvaluationDataToFile(dir, nonMet_typeInts, ens,
-                        areaStart, end, false);
-                //store to addtional directory that will not be emptied for the next model run
-                EvalDatProcessor.storeEvaluationDataToFile(permaDir, nonMet_typeInts, ens,
-                        areaStart, end,false);
-                
-                if (ens.ops.dfOps.df_trueLOOV) {
-                    EvalDatProcessor.storeEvaluationDataToFile(permaDir, nonMet_typeInts, ens,
-                            areaStart, end,true);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ArchStatProcessor.storeEvaluationDataToFile(ens);
 
             try {
                 oc = ens.getCurrentOverridesController();
@@ -195,7 +181,7 @@ public class OutputManager {
         }
 
 
-        if (Imager.canVisualize()) {
+        if (Imager.canVisualizeEnfuserOutput()) {
             Imager.graphicEnfuserOutput(ens,afs,nonMet_typeInts);
         } else {
             compileNetCDFs(ens,afs,nonMet_typeInts);
