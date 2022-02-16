@@ -34,7 +34,7 @@ public class DataCore {
      /*Lasse Johansson 2011-2021 FMI
 	 * This class controls model instances and combines their estimation values etc.
      */
-    public static String VERSION_INFO = "FMI-ENFUSER 2.11.0 (updated 14.2.2022)";
+    public static String VERSION_INFO = "FMI-ENFUSER 2.11.1 (updated 16.2.2022)";
     
     public MapPack mapPack;
     public DataBase DB;

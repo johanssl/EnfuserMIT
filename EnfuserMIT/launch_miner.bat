@@ -1,0 +1,1 @@
+java -Xmx1g -jar Enfuser2.jar -runmode=miner
