@@ -7,7 +7,6 @@ package org.fmi.aq.enfuser.ftools;
 
 import java.io.File;
 import org.fmi.aq.essentials.date.Dtime;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
 
 /**
  *

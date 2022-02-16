@@ -5,11 +5,10 @@
  */
 package org.fmi.aq.enfuser.options;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 
@@ -69,7 +68,7 @@ public class Categories {
 
 
     public Categories(String ROOT) {
-        String dir = ROOT + "data" + Z;
+        String dir = ROOT + "data" + FileOps.Z;
         catLines = new HashMap<>();
         ArrayList<String> arr;
         File f = new File(dir + "categoryAssociations.csv");

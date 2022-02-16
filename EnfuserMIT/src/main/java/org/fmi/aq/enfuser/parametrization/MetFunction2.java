@@ -7,7 +7,7 @@ package org.fmi.aq.enfuser.parametrization;
 
 import org.fmi.aq.enfuser.options.VarAssociations;
 import org.fmi.aq.enfuser.meteorology.Met;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.ftools.CurverFunction;
 import java.util.ArrayList;
 import java.util.HashMap;

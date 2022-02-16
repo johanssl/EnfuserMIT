@@ -6,7 +6,7 @@
 package org.fmi.aq.essentials.gispack.osmreader.colmap;
 
 import org.fmi.aq.essentials.geoGrid.Boundaries;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;

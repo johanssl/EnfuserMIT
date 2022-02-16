@@ -17,9 +17,7 @@ import org.fmi.aq.essentials.geoGrid.Boundaries;
 import org.fmi.aq.essentials.geoGrid.GeoGrid;
 import org.fmi.aq.essentials.netCdf.NcInfo;
 import org.fmi.aq.essentials.netCdf.NetCDFout2;
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
-import org.fmi.aq.essentials.plotterlib.animation.Anim;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,9 +27,6 @@ import java.util.logging.Level;
 import static org.fmi.aq.enfuser.ftools.FuserTools.copyTo;
 import org.fmi.aq.enfuser.ftools.Zipper;
 import org.fmi.aq.enfuser.options.RunParameters;
-import org.fmi.aq.essentials.plotterlib.Visualization.GridDot;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
-import org.fmi.aq.essentials.plotterlib.animation.AnimEncoder;
 import org.fmi.aq.interfacing.ArchStatProcessor;
 import org.fmi.aq.interfacing.Feeder;
 import org.fmi.aq.interfacing.Imager;
@@ -77,7 +72,7 @@ public class OutputManager {
         ArrayList<Integer> nonMet_typeInts = p.nonMetTypeInts(ens.ops);
         Dtime areaStart = p.start();
         Dtime end = p.end();
-        Boundaries bounds = p.bounds();
+        
         String permaDir = ops.statsOutDir(areaStart);
         AdjustmentBank oc = ens.getCurrentOverridesController();
         //new output statistics 
@@ -111,7 +106,7 @@ public class OutputManager {
                 //forecast points
                 ArrayList<String> forcs = oc.getObservationStatistics_forecast(areaStart, end, ens, nonMet_typeInts);
                 if (forcs != null) {
-                    String forcDir = permaDir +"forecasted"+Z;
+                    String forcDir = permaDir +"forecasted"+FileOps.Z;
                     File f = new File(forcDir);
                     if (!f.exists()) f.mkdirs();
                     String overnam = "forecastStatistics_" + trunkatedTime(areaStart)
@@ -176,13 +171,6 @@ public class OutputManager {
         //NOTHING ELSE IS PROCESSED, just archive model data and continue to next time span.
         //==============================================================================================================
 
-        Dtime lastObsTime = null;
-        try {
-            lastObsTime = ens.datapack.getMaxObservedDt();
-        } catch (Exception e) {
-
-        }
-
 //it possible that the AreaFusion arrayList is null or empty (memory saving mode)
 //in that case we load it now from the archives that have just been made
       
@@ -194,76 +182,48 @@ public class OutputManager {
   EnfuserLogger.log(Level.INFO,OutputManager.class,"====>>> Archives have been read.");
   ens.ops.logBusy(true); 
   
-//for private statistics (stats/) some hidden measurements needs to be revealed.
-        if (ops.visOps.vid_interpolationFactor > 1) {
-            EnfuserLogger.log(Level.FINER,OutputManager.class,
-                    "Slice interpolation has been set ON, fusion arraySize=" + afs.size());
-        }
-
 //save overrides if exists (it should)
         if (oc != null) {
             EnfuserLogger.log(Level.FINER,OutputManager.class,"Printing out used overrides.");
             oc.timeSeriesToFile(ops.areaID(), ops, nonMet_typeInts, dir, false);
         }
 
-
-        Dtime firstDt = afs.get(0).dt.clone();
-        boolean storeMet = true;
-        int typeInt_prox = 0;
-        int metGrid_interpFactor = ops.visOps.vid_interpolationFactor;//store for comparison when typeInt is changed
-        GeoGrid[][] metgrids = null;
         try {
-            metGridsForType(ops, afs, storeMet, typeInt_prox, dir);
+            metGridsForType(ops, afs, true, 0, dir);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        storeMet = false;
 
-        Anim a;
-        float[][][] emsData;
-        // iterate over different pollutants
-        
-        int lastTypeForAnim =-1;//in case video encoding uses a parallel thread, the last one must not.
-        for (int typeInt : nonMet_typeInts) {
-             boolean anim = ops.doAnimation(typeInt);
-             if (anim) lastTypeForAnim = typeInt;
+
+        if (Imager.canVisualize()) {
+            Imager.graphicEnfuserOutput(ens,afs,nonMet_typeInts);
+        } else {
+            compileNetCDFs(ens,afs,nonMet_typeInts);
         }
         
-        ArrayList<AnimEncoder> encs = new ArrayList<>();
+        //phase two, while the priority for output gets lower and lower.
+        if (p.miscOutput())Feeder.secondaryOptionalOutput(ens,dir, areaStart, end,nonMet_typeInts,afs.get(0));
+        copyOutputToSecondaryChannels(ens, areaStart, end);
+    }
+    
+    
+    private static void compileNetCDFs(FusionCore ens, ArrayList<AreaFusion> afs,
+            ArrayList<Integer> nonMet_typeInts) {
         
+        FusionOptions ops = ens.ops;
+        RunParameters p = ops.getRunParameters();
+        if (!p.gridsOutput()) return;
+
+        float[][][] emsData;
+        String dir = ops.operationalOutDir();
+        Dtime firstDt = afs.get(0).dt.clone();
+        Boundaries bounds = p.bounds();
         
         for (int typeInt : nonMet_typeInts) {
-          String type = ens.ops.VAR_NAME(typeInt);
-           boolean anim = ops.doAnimation(typeInt);
+          if (ens.ops.IS_METVAR(typeInt)) continue; // no met data in this iteration. This should never happen though.
             try {
-                //get visual options for this type
-                ops.setTypeVisOps(typeInt);
-                ops.logBusy();
-                //byte typeInt = FusionOptions.getTypeInt(type);
-                if (ens.ops.IS_METVAR(typeInt)) {
-                    continue; // no met data in this iteration
-                }
-                GeoGrid[] SILAM_grids = null;
-                //Dtime[] dts = AreaFusion.getDates_interpolated(afs,  ops);
-                if (ops.SILAM_visualWindow ) {
-                    try {
-                        SILAM_grids = RegionalGridProcessor.extractRegionalBGgeos(typeInt, afs, ens);//ens.datapack.extractSilamGeos(typeInt,dts, ens);
-                    } catch (Exception e) {
-                        EnfuserLogger.log(Level.INFO,OutputManager.class,
-                                "OutputManager: SILAM visuals are not available for "+ type);
-                    }
-                }
-
-                //get local measurements in String form for this time span and typeInt    
-                ArrayList<GridDot>[] coordinatedStrings = new ArrayList[afs.size()];
-                for (int z = 0; z < afs.size(); z++) {
-                    coordinatedStrings[z] = afs.get(z).getGridDots(typeInt,ops,ens.DB);
-                }
-
-                //the next grids needs not to be interpolated yet 
                 emsData = AreaFusion.getGrids_nonInterp(afs, typeInt);
-
-                if (p.gridsOutput()) {
+                
                     String vari = ens.ops.VAR_NAME(typeInt) + "";
                     EnfuserLogger.log(Level.INFO,OutputManager.class,
                             "Producing dynamic netCDF for " + vari + " to " + dir);
@@ -287,7 +247,7 @@ public class OutputManager {
                                 inf,
                                 emsData,
                                 bounds,
-                                FuserTools.getNetCDF_attributes(lastObsTime),
+                                FuserTools.getNetCDF_attributes(null),
                                 ncfile);
                         EnfuserLogger.log(Level.FINER,OutputManager.class,"DONE producing dynamic netCDF for " + vari);
                         //zip it
@@ -297,80 +257,7 @@ public class OutputManager {
                     } catch (IOException | InvalidRangeException ex) {
                         ex.printStackTrace();
                     }
-                }
-
-                double[] mm = ens.ops.visOps.minMax = AreaFusion.assessConcentrationRange(afs, typeInt);
                 
-                if (typeInt == ens.ops.VARA.VAR_AQI) {
-                    ops.visOps.minMax = AreaFusion.getMinMax(afs, typeInt);
-                } else  {
-                    mm = ens.ops.VARA.applyVisualizationLimits(typeInt, mm);
-                    ops.visOps.minMax = mm;
-                }
-
-                //animation
-                ens.ops.logBusy();
-                if (typeInt == ens.ops.VARA.VAR_AQI && ops.visOps.colorScheme == FigureData.COLOR_PASTEL_GR) {
-                //e.g. define scheme pastelGR (8) for AQI in varAssociations.csv
-                    ops.visOps.customPaletteRecipee = ens.aqi.getCustomNaturalPalette(ops.visOps.minMax);
-                //intelligent color palette scaling for this AQI interval
-                } else {
-                    ops.visOps.customPaletteRecipee = null;
-                }
-
-                int secsBetween = 60 * ops.areaFusion_dt_mins();
-                ops.visOps.waterValueScaler_anim = ops.WATER_PENETR;
-                
-                a = new Anim(dir, emsData, bounds, ops.visOps, firstDt, secsBetween,
-                        ens.mapPack,type);
-                a.local_ts = ops.getArguments().getTimezone();
-                
-                a.animOut = anim;
-                if (!p.imagesOutput()) {
-                    a.figsOut=false;
-                }
-                if (!a.animOut && !a.figsOut) continue;
-                
-                a.regID = ops.areaID() + "_";
-                a.imgPostID = "_post";
-                a.coordinatedStrings = coordinatedStrings;
-
-                a.aboveColb = ens.ops.VARA.LONG_DESC(typeInt, true);
-                a.varName = ens.ops.VAR_NAME(typeInt);
-                a.fullAviName = ops.areaID() + "_" + a.varName + "_" + firstDt.systemSeconds() + "_post_downloads.avi";
-
-                //check if metData needs to be interpolated (e.g. frame interpolation factor is different)
-                if (ops.visOps.vid_interpolationFactor != metGrid_interpFactor || metgrids ==null) {
-                    metGrid_interpFactor = ops.visOps.vid_interpolationFactor;//store for comparison when typeInt is changed
-                    metgrids = metGridsForType(ops, afs, storeMet, typeInt, dir);
-                }
-
-                a.addMetGrids(metgrids, false);//no interpolation needed
-                a.displayUTC_Z = true; // adds "Z" right next to the timestamp since everything is in UTC time.
-
-                if (SILAM_grids != null && ops.visOps.placeMiniWindow) {
-                    try {
-                    EnfuserLogger.log(Level.FINER,OutputManager.class,"Interpolating Silam miniWindow...");
-                    a.miniWindow_interpolated = a.interpolateGeo(SILAM_grids);
-                    } catch (NullPointerException w) {
-                        EnfuserLogger.log(Level.FINER,OutputManager.class,
-                                "SILAM miniwindow grid interpolation error "
-                                        + "for : " + ens.ops.VAR_NAME(typeInt));
-                    }
-                }
-
-                System.gc();
-                try {
-                    ops.logBusy();
-                    a.createFrames();// also produces figures
-                    AnimEncoder enc = a.get();
-                    if (enc!=null) encs.add(enc);
-                        
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                // a.produceAnimation_multiThread();// also produces figures
-                System.gc();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -378,13 +265,7 @@ public class OutputManager {
             
           //restore settings for next type 
         }// for types z
-
-        //do the encoding, possibly in multithreading
-        AnimEncoder.encodeAll(encs,ops);
         
-        //phase two, while the priority for output gets lower and lower.
-        if (p.miscOutput())Feeder.secondaryOptionalOutput(ens,dir, areaStart, end,nonMet_typeInts,afs.get(0));
-        copyOutputToSecondaryChannels(ens, areaStart, end);
     }
     
 

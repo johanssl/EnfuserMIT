@@ -6,7 +6,7 @@
 package org.fmi.aq.enfuser.core.statistics;
 
 import org.fmi.aq.enfuser.core.assimilation.AdjustmentBank;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.datapack.source.DBline;
 import org.fmi.aq.enfuser.datapack.main.TZT;
 import org.fmi.aq.enfuser.datapack.main.Observation;

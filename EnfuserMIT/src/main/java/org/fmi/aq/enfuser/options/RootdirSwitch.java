@@ -7,8 +7,7 @@ package org.fmi.aq.enfuser.options;
 
 import java.io.File;
 import java.util.ArrayList;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 import org.fmi.aq.enfuser.ftools.Zipper;
@@ -34,7 +33,7 @@ public class RootdirSwitch {
  
   public static String[] getRootDirSwith() {
      File f = new File("");
-     String fname = f.getAbsolutePath() +Z;
+     String fname = f.getAbsolutePath() +FileOps.Z;
      
      ArrayList<String> arr = readCandidates();
      String root = fname+"";
@@ -43,16 +42,16 @@ public class RootdirSwitch {
      if (arr==null) {//the rootSwitch.txt does not exist, so the program will
          //launch from here. Check installer package
          File file = new File("");
-         String path = file.getAbsolutePath() +Z + INST_PACKAGE_FILE;
+         String path = file.getAbsolutePath() +FileOps.Z + INST_PACKAGE_FILE;
          File instp = new File(path);
          System.out.println("InstallerPackage exists: "+ instp.exists());
-         File data = new File(file.getAbsolutePath()+Z +"data"+Z);
+         File data = new File(file.getAbsolutePath()+FileOps.Z +"data"+FileOps.Z);
          System.out.println("Data directory exists: "+ data.exists());
          
          if (instp.exists() && !data.exists()) {
              System.out.println("Unpacking " +INST_PACKAGE_FILE);
              ArrayList<String> unzippedFiles = Zipper.UnZip(instp.getAbsolutePath(),
-                     file.getAbsolutePath() +Z);
+                     file.getAbsolutePath() +FileOps.Z);
          }
          
          
@@ -76,7 +75,7 @@ public class RootdirSwitch {
  private static ArrayList<String> readCandidates() {
      ArrayList<String> arr = new ArrayList<>();
      File f = new File("");
-     String fname = f.getAbsolutePath() +Z +SWITCH_NAME;
+     String fname = f.getAbsolutePath() +FileOps.Z +SWITCH_NAME;
      EnfuserLogger.log(Level.FINER,RootdirSwitch.class,"Attempting to read root directory switch file from "+ fname);
      File test = new File(fname);
      if (test.exists()) {
@@ -86,8 +85,8 @@ public class RootdirSwitch {
                    
                 for (String custom : possibleRoots) {
 
-                    String path = custom.replace("\\", Z);
-                    path = path.replace("/", Z);
+                    String path = custom.replace("\\", FileOps.Z);
+                    path = path.replace("/", FileOps.Z);
                     EnfuserLogger.log(Level.FINER,RootdirSwitch.class,"Checking "+path +" (this should be a valid path to an existing directory to function)");
 
                     test = new File(path);

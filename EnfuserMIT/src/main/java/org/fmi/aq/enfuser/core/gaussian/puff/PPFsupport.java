@@ -84,7 +84,10 @@ public class PPFsupport {
                 inactives++;
                 sourcCountss[p.sourcType][SOURCCOUNT_INACTIVE]++;
             }
-           
+            
+            if (p.usesMicroMeteorology) {
+                lespuffs++;
+            }
 
             if (p.merged) {
                 supers++;

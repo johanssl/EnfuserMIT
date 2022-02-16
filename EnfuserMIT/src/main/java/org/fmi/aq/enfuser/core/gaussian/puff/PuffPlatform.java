@@ -5,9 +5,6 @@
  */
 package org.fmi.aq.enfuser.core.gaussian.puff;
 
-import org.fmi.aq.essentials.gispack.Masks.MapPack;
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.enfuser.core.FusionCore;
 import static org.fmi.aq.enfuser.core.gaussian.puff.PuffCarrier.DISCARD_OUT;
@@ -31,7 +28,7 @@ import java.util.logging.Level;
 import static org.fmi.aq.enfuser.ftools.FastMath.degreeInMeters;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.kriging.ResolutionMod;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.interfacing.InstanceLoader;
 import org.fmi.aq.interfacing.MicroMet;
 
@@ -268,23 +265,6 @@ public class PuffPlatform {
     int errs = 0;
 
 
-    public void visualizeSHGslice(Dtime dt, int q, Integer c, MapPack mp, VisualOptions vops) {
-        
-        GeoGrid g;
-        String type = ens.ops.VAR_NAME(q) + "_all";
-        if (c!=null && c>=0) type =  ens.ops.VAR_NAME(q) + "_" + ens.ops.CATS.CATNAMES[c];
-        g = this.consContainer.get2D_timeSlice(q, c, dt,true);
-
-        FigureData fdE = new FigureData(g, vops);
-        fdE.aboveScale1 = type + " [µgm-3]";
-        fdE.text_upperCenter = dt.getStringDate();
-        fdE.addMapPack(mp);
-        fdE.prioritizeSat=true;
-        fdE.drawImagetoPane();
-
-    }
-
-
     public GeoGrid currentSlice(int resIncreaser, int q, Integer c) {
         if (c!=null && c<0) c=null;
         if (resIncreaser<1) resIncreaser =1;
@@ -313,7 +293,7 @@ public class PuffPlatform {
         
        GeoGrid g= new GeoGrid(dat,dtt,b);
         if (resIncreaser >1) {
-            g = ResolutionMod.kriginSmooth_MT(2, false,resIncreaser, g);//increaseResolution_v2(2, false, resIncreaser, g, false);
+            g = ResolutionMod.kriginSmooth_MT(2, false,resIncreaser, g);
         }
         return g;
     }

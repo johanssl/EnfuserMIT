@@ -19,8 +19,7 @@ import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 import org.fmi.aq.essentials.geoGrid.GeoGrid;
 import org.fmi.aq.essentials.gispack.osmreader.core.OsmLayer;
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
+import org.fmi.aq.interfacing.Imager;
 
 /**
  * This class is for the assessment of emission cell distances. The use case is 
@@ -165,23 +164,14 @@ public class DistanceCheck {
      */
     void visualize(FusionCore ens, OsmLayer ol) {
        GeoGrid g = getDistanceGrid();
-        
-            VisualOptions vops = new VisualOptions();
-             vops.fd_minimumWidth = 1024;
-             vops.numCols = 80;
-             vops.colorScheme = FigureData.COLOR_FLAME;
-             vops.scaleMaxCut = 1;
-             vops.scaleProgression = 1;
-             vops.ol = ol;
-             vops.mapRendering_THE_DARKNESS(true, true, true);
-             vops.transparency = FigureData.TRANSPARENCY_LOW;
-            String dir = ens.ops.defaultOutDir();
-            FigureData fd = new FigureData(g, vops);
-            fd.aboveScale1 = "Emission cell distance check [m, to nearest cell]";
-            fd.type = "emDistCheck_" + ol.name;
-            //fd.drawImagetoPane();  
-            fd.saveImage(FigureData.IMG_FILE_PNG, dir);
-            fd.drawImagetoPane();
+       String dir = ens.ops.defaultOutDir();
+       String styleTag ="default";
+       String[] txt = {"emDistCheck_" + ol.name, "Emission cell distance check [m, to nearest cell]"};
+       boolean toPane = false;
+       boolean kmz = false;
+       double[] mm = null;
+       Double curver = 1.0;
+       Imager.visualize(dir, g, styleTag,txt, ens.mapPack, toPane,kmz,mm,curver); 
     }
     
     /**

@@ -4,7 +4,7 @@
  */
 package org.fmi.aq.enfuser.datapack.source;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.datapack.main.Observation;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import java.io.File;

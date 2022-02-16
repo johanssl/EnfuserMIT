@@ -15,7 +15,7 @@ import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.RunParameters;
 import org.fmi.aq.enfuser.options.VarAssociations;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  * The purpose of this class is to create a meta.csv file to output directory,

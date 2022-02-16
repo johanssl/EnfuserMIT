@@ -11,7 +11,7 @@ import org.fmi.aq.enfuser.datapack.main.VariableData;
 import org.fmi.aq.enfuser.datapack.source.AbstractSource;
 import org.fmi.aq.enfuser.datapack.source.StationSource;
 import org.fmi.aq.essentials.date.Dtime;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import static org.fmi.aq.enfuser.core.output.OutputManager.trunkatedTime;

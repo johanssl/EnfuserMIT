@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
-import org.fmi.aq.enfuser.datapack.source.DataBase;
-import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
-import org.fmi.aq.essentials.plotterlib.Visualization.GridDot;
 
 /**
  *
@@ -94,34 +90,5 @@ public class EDbundle {
                 + types +" variable types, " + sources +"type-specific sources, " 
                 + obs +" total observations.");
     }
-
-    public ArrayList<GridDot> getSourceAverages(int typeInt, boolean useDots,
-            FusionOptions ops) {
-        
-       ArrayList<GridDot> arr = new ArrayList<>();
-       Collection<String> cols  =getSources(typeInt);
-       if (cols==null) return arr;
-       
-       for (String ID:cols) {
-           ArrayList<EvalDat> eds = getData(typeInt, ID);
-           if (eds==null) continue;
-           EvalDat one = eds.get(0);
-           float imprec = one.variabilityRating();
-           
-           //float pred =0;
-           float ob = 0;
-           for (EvalDat ed:eds) {
-               //pred+=ed.modelledValue()/eds.size();
-               ob+=ed.value()/eds.size();
-           }
-           
-           double val = editPrecision(ob,3);
-           GridDot gd = new GridDot(typeInt,one.lat,one.lon,val+"",
-                   (float)val,ops.visOps.dotSize_percent);
-           gd.qualityDotSizeMod(imprec);
-           arr.add(gd);
-       }//for ids
-       return arr;
-    }
-      
+  
 }

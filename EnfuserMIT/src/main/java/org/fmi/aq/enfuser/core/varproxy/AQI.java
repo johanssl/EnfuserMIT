@@ -6,7 +6,7 @@
 package org.fmi.aq.enfuser.core.varproxy;
 
 import org.fmi.aq.enfuser.datapack.main.Observation;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;

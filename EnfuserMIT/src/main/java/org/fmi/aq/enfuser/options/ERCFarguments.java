@@ -15,7 +15,7 @@ import static org.fmi.aq.essentials.gispack.utils.Tools.getBetween;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 import org.fmi.aq.enfuser.mining.feeds.FeedFetch;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  * This class holds the regional arguments (settings) that affect the modelling

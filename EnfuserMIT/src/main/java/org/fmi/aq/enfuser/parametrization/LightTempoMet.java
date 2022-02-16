@@ -5,7 +5,7 @@
  */
 package org.fmi.aq.enfuser.parametrization;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.meteorology.Met;
 import org.fmi.aq.essentials.date.Dtime;
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ import org.fmi.aq.enfuser.customemitters.OsmLocTime;
 import org.fmi.aq.essentials.geoGrid.GeoGrid;
 import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
 import static org.fmi.aq.essentials.gispack.utils.Tools.getBetween;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 
 /**
  * The names comes from Light Temporal Meteorological profile (LTM profile).
@@ -264,7 +263,7 @@ public class LightTempoMet {
                 this.subFiles = new ArrayList<>();
                 for (String test:sp) {
                     if (test.endsWith(".csv")) {
-                        String subpath = file.getParentFile().getAbsolutePath() + Z + test;
+                        String subpath = file.getParentFile().getAbsolutePath() + FileOps.Z + test;
                         File subfile = new File(subpath);
                         System.out.println("Adding subFile:"
                                 +subfile.getAbsolutePath() +" for "+file.getName());

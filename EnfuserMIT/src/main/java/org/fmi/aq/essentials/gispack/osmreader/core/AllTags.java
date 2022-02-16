@@ -5,7 +5,7 @@
  */
 package org.fmi.aq.essentials.gispack.osmreader.core;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;

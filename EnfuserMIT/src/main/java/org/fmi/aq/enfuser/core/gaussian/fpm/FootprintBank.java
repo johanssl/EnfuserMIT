@@ -16,8 +16,8 @@ import java.io.Serializable;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 import org.fmi.aq.enfuser.datapack.reader.DefaultLoader;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.options.GlobOptions;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 
 /**
  *
@@ -27,7 +27,7 @@ public class FootprintBank implements Serializable {
     private static final long serialVersionUID = 7526472293822876147L;//Important: change this IF changes are made that breaks serialization!   
 
     public static FootprintBank load() {
-       String fname = GlobOptions.get().getRootDir() +"data"+ Z + DefaultLoader.FPM_FORMS_NAME;
+       String fname = GlobOptions.get().getRootDir() +"data"+ FileOps.Z + DefaultLoader.FPM_FORMS_NAME;
        return load(fname);
     }
 

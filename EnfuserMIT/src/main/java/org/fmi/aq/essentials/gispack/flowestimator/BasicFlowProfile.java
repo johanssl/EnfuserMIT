@@ -7,7 +7,7 @@ package org.fmi.aq.essentials.gispack.flowestimator;
 
 import org.fmi.aq.essentials.date.Dtime;
 import static org.fmi.aq.essentials.gispack.flowestimator.FlowEstimator.SOURCE_DEF;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;

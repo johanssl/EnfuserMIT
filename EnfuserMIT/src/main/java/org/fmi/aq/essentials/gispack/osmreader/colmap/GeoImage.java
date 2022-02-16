@@ -5,7 +5,7 @@
  */
 package org.fmi.aq.essentials.gispack.osmreader.colmap;
 
-import static org.fmi.aq.essentials.plotterlib.Visualization.FileOps.readStringArrayFromFile;
+import static org.fmi.aq.enfuser.ftools.FileOps.readStringArrayFromFile;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 import java.io.File;
 import java.util.ArrayList;

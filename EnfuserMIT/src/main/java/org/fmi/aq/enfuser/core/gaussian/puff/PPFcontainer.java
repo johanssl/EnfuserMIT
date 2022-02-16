@@ -300,7 +300,7 @@ public class PPFcontainer {
      * @param nonZero if true, negative values will be cropped to zero.
      * @return gridded dataset. Returns null if not found.
      */
-    GeoGrid get2D_timeSlice(int q, Integer c, Dtime dt,boolean nonZero) {
+    public GeoGrid get2D_timeSlice(int q, Integer c, Dtime dt,boolean nonZero) {
        
         QCLayer l = getClosest(dt);
         if (l==null) return null;

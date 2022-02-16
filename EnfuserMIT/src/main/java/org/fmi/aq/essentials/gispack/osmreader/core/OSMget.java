@@ -6,7 +6,7 @@
 package org.fmi.aq.essentials.gispack.osmreader.core;
 
 import org.fmi.aq.essentials.gispack.osmreader.road.RoadPiece;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.essentials.geoGrid.ByteGeoGrid;
 import static org.fmi.aq.essentials.geoGrid.GeoGrid.getH;
 import static org.fmi.aq.essentials.geoGrid.GeoGrid.getW;

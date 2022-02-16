@@ -9,28 +9,15 @@ import java.io.File;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
 import org.fmi.aq.enfuser.core.AreaFusion;
 import org.fmi.aq.enfuser.core.DataCore;
 import org.fmi.aq.enfuser.core.FusionCore;
-import org.fmi.aq.enfuser.core.output.Arch;
-import static org.fmi.aq.enfuser.core.output.Arch.getStamp;
-import org.fmi.aq.enfuser.core.gaussian.puff.PPFcontainer;
-import org.fmi.aq.enfuser.core.gaussian.puff.PuffPlatform;
 import org.fmi.aq.enfuser.customemitters.AbstractEmitter;
-import static org.fmi.aq.enfuser.customemitters.AbstractEmitter.CSVLINE_DYN;
-import static org.fmi.aq.enfuser.customemitters.AbstractEmitter.HQLINE_DYN;
 import org.fmi.aq.enfuser.datapack.main.DataPack;
-import org.fmi.aq.enfuser.ftools.FuserTools;
-import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import org.fmi.aq.enfuser.mining.feeds.Feed;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 import org.fmi.aq.essentials.gispack.osmreader.road.RoadPiece;
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
-import org.fmi.aq.essentials.plotterlib.animation.Anim;
-import org.fmi.aq.essentials.plotterlib.animation.AnimEncoder;
 import org.fmi.aq.essentials.shg.SparseHashGrid;
 
 

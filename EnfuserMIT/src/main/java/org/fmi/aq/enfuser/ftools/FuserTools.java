@@ -6,7 +6,6 @@ package org.fmi.aq.enfuser.ftools;
 
 import org.fmi.aq.enfuser.datapack.main.Observation;
 import org.fmi.aq.essentials.date.Dtime;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +36,6 @@ import org.fmi.aq.enfuser.mining.feeds.FeedFetch;
 import org.fmi.aq.enfuser.options.ERCFarguments;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
 
 /**
  *
@@ -114,23 +112,23 @@ public class FuserTools {
         //could it be that the wrong file separator is being used?
         String original = dir + "";
         String other = "/";
-        if (Z.equals(other)) {
+        if (FileOps.Z.equals(other)) {
             other = "\\";
         }
 
         if (dir.contains(other + "")) {
-            dir = dir.replace(other + "", Z);
+            dir = dir.replace(other + "", FileOps.Z);
         }
 
-        if (!dir.startsWith(Z + Z)) {// it is safe to remove double file separators
-            dir = dir.replace(Z + Z, Z);
+        if (!dir.startsWith(FileOps.Z + FileOps.Z)) {// it is safe to remove double file separators
+            dir = dir.replace(FileOps.Z + FileOps.Z, FileOps.Z);
         }
 
         String finalDir;
-        if (dir.endsWith(Z)) {
+        if (dir.endsWith(FileOps.Z)) {
             finalDir = dir;//all ok
         } else {
-            finalDir = dir + Z;
+            finalDir = dir + FileOps.Z;
         }
         if (!original.equals(finalDir)) {
             EnfuserLogger.log(Level.FINER,FuserTools.class,
@@ -625,26 +623,26 @@ public static Integer getMostRecentFileAge(String dir) {
             }
         } //for ind
         String root = GlobOptions.get().getRootDir();
-        String logs = root + "logs" + Z;
+        String logs = root + "logs" + FileOps.Z;
         f = new File(logs);
         if (!f.exists()) {
             EnfuserLogger.log(Level.FINER,  "\t Creating non-existing directory: " + f.getAbsolutePath());
             f.mkdirs();
         }
         //results dirs ==============
-        String res = root + "Results" + Z;
+        String res = root + "Results" + FileOps.Z;
         f = new File(res);
         if (!f.exists()) {
             EnfuserLogger.log(Level.FINER, "\t Creating non-existing directory: " + f.getAbsolutePath());
             f.mkdirs();
         }
-        String resCT = root + "Results" + Z + "COMMON_TEMP" + Z;
+        String resCT = root + "Results" + FileOps.Z + "COMMON_TEMP" + FileOps.Z;
         f = new File(resCT);
         if (!f.exists()) {
             EnfuserLogger.log(Level.FINER, "\t Creating non-existing directory: " + f.getAbsolutePath());
             f.mkdirs();
         }
-        String resSC = root + "Results" + Z + "statCrunch" + Z;
+        String resSC = root + "Results" + FileOps.Z + "statCrunch" + FileOps.Z;
         f = new File(resSC);
         if (!f.exists()) {
             EnfuserLogger.log(Level.FINER, "\t Creating non-existing directory: " + f.getAbsolutePath());

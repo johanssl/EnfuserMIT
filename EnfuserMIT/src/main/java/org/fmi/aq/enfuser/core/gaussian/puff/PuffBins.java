@@ -81,6 +81,10 @@ public class PuffBins {
 
         this.merger = new MergingPool(pf.b_expanded,pf.ens.ops);
     }
+    
+    public AreaNfo getAreaDef() {
+        return this.in;
+    }
 
     
 
@@ -145,7 +149,7 @@ public class PuffBins {
                 RAD++;
                 x =0.35f;
             }
-           
+            if (pf.usesMicroMeteorology) RAD =1;
             RAD+= (int)(x*pf.dist_total_m/this.in.res_m);//every 4 cells of travel increase radius by 1.
 
             //position, lat-lon to grid index.
@@ -266,49 +270,8 @@ public class PuffBins {
 
     }
 
-    public GeoGrid getPropertyGrid(String property,PuffPlatform pf) {
-        
-        if (property.contains("center")) return this.pCenterCounts;
-        if (property.contains("relcents")) return this.pCenterCounts_relative;
-        float[][] dat = new float[H][W];
-        for (int h =0;h<H;h++) {
-            for (int w =0;w<W;w++) {
-                ArrayList<PuffCarrier> arr = this.arrays[h][w];
-                dat[h][w] = getProperty(property,arr,pf);
-            }
-        }
-       return new GeoGrid(dat,this.in.dt,in.bounds); 
+    public ArrayList<PuffCarrier> getArray(int h, int w) {
+        return this.arrays[h][w];
     }
-    
-private float getProperty(String property, ArrayList<PuffCarrier> arr, PuffPlatform pf) {
-    float sum=0;
-    int n=0;
-    if (arr==null || arr.isEmpty()) return sum;
-    
-    if (property.contains("dist")) {
-        for (PuffCarrier p:arr) {
-            sum+=p.dist_total_m;
-            n++;
-        }
-    } else if (property.contains("timer")) {
-        for (PuffCarrier p:arr) {
-            sum+=p.timer_total_s;
-             n++;
-        }
-    } else if (property.contains("blh")) {
-        for (PuffCarrier p:arr) {
-            sum+=p.windState.maxABLH();
-             n++;
-        }
-    } else if (property.contains("wind")) {
-        for (PuffCarrier p:arr) {
-            sum+=p.windState.U;
-             n++;
-        }
-        
-    } 
-    
-    return sum/arr.size();
-}
 
 }

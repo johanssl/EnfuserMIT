@@ -2,13 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.fmi.aq.essentials.plotterlib.Visualization;
+package org.fmi.aq.enfuser.ftools;
 
 /**
  *
  * @author johanssl
  */
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import java.io.*;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
@@ -25,6 +24,8 @@ import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
 
 
 public class FileOps {
+
+    public static final String Z = System.getProperty("file.separator");
 
 
     public static void printOutALtoFile2(File f, ArrayList<String> lines, boolean append) {

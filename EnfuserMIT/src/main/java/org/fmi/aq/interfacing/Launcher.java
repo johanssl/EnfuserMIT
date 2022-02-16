@@ -6,27 +6,15 @@
 package org.fmi.aq.interfacing;
 
 import java.util.HashMap;
-import org.fmi.aq.enfuser.customemitters.PowerPlantProcessor;
 import org.fmi.aq.enfuser.core.EnfuserLaunch;
 import org.fmi.aq.enfuser.options.FusionOptions;
-import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.ARG_FILEDIR;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.ARG_NAME;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.ARG_VALUE;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.RUNM_AREA_TASK;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.RUNM_MINER;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.RUNM_SERVER;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.RUNM_TESTRUN;
-import static org.fmi.aq.enfuser.core.EnfuserLaunch.main;
 import org.fmi.aq.enfuser.core.FusionCore;
 import org.fmi.aq.enfuser.core.assimilation.PersistentAdjustments;
 import org.fmi.aq.enfuser.customemitters.TrafficEmitter;
 import org.fmi.aq.enfuser.datapack.source.StationSource;
-import org.fmi.aq.essentials.gispack.osmreader.core.OsmLayer;
 
 
 /**
@@ -85,17 +73,7 @@ public class Launcher {
    */
     public void pointEmitterSetup(Object ops_RegionName, Boundaries b,
             boolean copyLTMs, boolean gePins, boolean areaTest) {
-       
-        if (ops_RegionName instanceof FusionOptions) {
-            FusionOptions ops = (FusionOptions)ops_RegionName;
-            PowerPlantProcessor.createForRegion(ops, copyLTMs, gePins,areaTest);
-            
-        } else if (ops_RegionName instanceof String) {
-            String regName = (String)ops_RegionName;
-            PowerPlantProcessor.createForRegion(regName, b, copyLTMs, gePins,areaTest);
-
-        }
-        
+ 
     }
     
     public Object manualCustom(String def, String[] args, Object input) {

@@ -22,8 +22,7 @@ import static org.fmi.aq.enfuser.options.FusionOptions.busyFileName;
 import org.fmi.aq.enfuser.options.ModellingArea;
 import org.fmi.aq.enfuser.options.Regions;
 import org.fmi.aq.enfuser.options.RunParameters;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  *This class is for the runmode 'server' in which the program either
@@ -350,7 +349,7 @@ public class TaskQueue {
         
         int maxN = 10000;
         for (int n = 0; n < maxN; n++) {
-            String filepath = dirBase + current.year + Z 
+            String filepath = dirBase + current.year + FileOps.Z 
                     + "allPollutants_" + current.getStringDate_fileFriendly() + ".zip";
             File f = new File(filepath);
             if (!f.exists()) {

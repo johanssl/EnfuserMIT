@@ -11,14 +11,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 import static org.fmi.aq.enfuser.ftools.FuserTools.findFileThatContains;
 import org.fmi.aq.enfuser.ftools.Zipper;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 
 /**
  * This class provides static methods to modify region file content after it has
@@ -142,7 +141,7 @@ private static File findConfigurationFile(String key, FusionOptions ops) {
     if (key.contains(ERCF) || key.contains("region_")) {
         
         String nameSearch = "region_"+ops.getRegionName();
-        String dir = g.dataDirCommon() +"Regions"+Z;
+        String dir = g.dataDirCommon() +"Regions"+FileOps.Z;
         return  findFileThatContains(dir, new String[]{nameSearch,".csv"});
         
     } else  {
@@ -284,7 +283,7 @@ private static File findConfigurationFile(String key, FusionOptions ops) {
           else if (nam.contains("indProfiles")
                   && nam.endsWith(".zip")) {//wind profile copy (FMI only)
               
-              String mapDir = g.regionalDataDir(ops.getRegionName()) +"maps"+Z;
+              String mapDir = g.regionalDataDir(ops.getRegionName()) +"maps"+FileOps.Z;
               EnfuserLogger.log(Level.INFO, RegionPostProcessing.class,
                       "Unzip (windProfiles): "+ test.getAbsolutePath());
               

@@ -16,8 +16,8 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import static org.fmi.aq.essentials.plotterlib.Visualization.FileOps.deleteFile;
-import static org.fmi.aq.essentials.plotterlib.Visualization.FileOps.lines_to_file;
+import static org.fmi.aq.enfuser.ftools.FileOps.deleteFile;
+import static org.fmi.aq.enfuser.ftools.FileOps.lines_to_file;
 
 /**
  *

@@ -62,7 +62,7 @@ public class PuffCarrier {
     public int mergedFrom =0;
     public boolean canMerge = true;//if true then this puff is allowed to merge with other puffs.
     static final String MERGED = "merged";
-
+    public boolean usesMicroMeteorology =false;
     //position, trip- and time meters
     public float timer_total_s = 0;//how many seconds the puff has been alive
     public float immaterial_meters_left = -1;//how many travel meters is still required for the puff to be accounted in concentration computations.

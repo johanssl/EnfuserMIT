@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import static org.fmi.aq.enfuser.options.Categories.CAT_BG;
 import org.fmi.aq.enfuser.options.VarAssociations;
 import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 
 /**

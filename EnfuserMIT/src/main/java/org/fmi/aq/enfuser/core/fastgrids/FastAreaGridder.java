@@ -5,12 +5,8 @@
  */
 package org.fmi.aq.enfuser.core.fastgrids;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
 import org.fmi.aq.enfuser.customemitters.AbstractEmitter;
 import org.fmi.aq.enfuser.customemitters.EmitterShortList;
-import org.fmi.aq.enfuser.meteorology.Met;
-import org.fmi.aq.enfuser.meteorology.WindConverter;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.enfuser.core.AreaInfo;
 import org.fmi.aq.enfuser.core.FusionCore;
@@ -21,13 +17,10 @@ import java.util.HashMap;
 import org.fmi.aq.essentials.gispack.osmreader.core.OsmLayer;
 import org.fmi.aq.enfuser.core.receptor.BlockAnalysis;
 import org.fmi.aq.enfuser.core.receptor.RPstack;
-import org.fmi.aq.enfuser.core.receptor.RP;
-import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 import org.fmi.aq.essentials.gispack.utils.AreaNfo;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
-import org.fmi.aq.enfuser.datapack.main.TZT;
 import org.fmi.aq.enfuser.datapack.main.Observation;
 import org.fmi.aq.enfuser.meteorology.WindState;
 
@@ -200,55 +193,6 @@ public class FastAreaGridder {
         return 0;
     }
     
-
-    public static GeoGrid mapWind(boolean draw, float height_m, Dtime dt,
-            FusionCore ens,  VisualOptions vops, AreaNfo in) {
-
-        OsmLayer ol = ens.mapPack.getOsmLayer (
-                in.bounds.getMidLat(), in.bounds.getMidLon());
-        
-        float[][] dat = new float[in.H][in.W];
-        WindState ws = new WindState();
-        ws.fineScaleRL = true;
-        ws.geoInterpolation=true;
-        
-        for (int h = 0; h < in.H; h++) {
-            if (h % 50 == 0) {
-                EnfuserLogger.log(Level.FINER,FastAreaGridder.class,"h=" + h);
-            }
-            for (int w = 0; w < in.W; w++) {
-                double lat = in.getLat(h);
-                double lon = in.getLon(w);
-                ws.setTimeLoc((float)lat, (float)lon, dt, ens,null);
-                ws.profileForHeight(height_m, ens);
-                dat[h][w] =ws.U;
-            }
-        }
-
-        GeoGrid g = new GeoGrid(dat, dt, in.bounds);
-        if (draw) {
-            if (vops==null) {
-                vops = new VisualOptions();
-                vops.fd_minimumWidth = 1024;
-                vops.numCols = 80;
-                vops.colorScheme = FigureData.COLOR_TEMPERATURE;
-                vops.scaleMaxCut = 1;
-                vops.scaleProgression = 1;
-            
-            }
-            String dir = ens.ops.defaultOutDir();
-            FigureData fd = new FigureData(g, vops);
-            fd.pairedSize = true;//avoid this one: IllegalArgumentException: Component 1 height should be a multiple of 2 for colorspace: YUV420J
-            fd.aboveScale1 = "Profiled wind speed [m/s]";
-            fd.type = "profiledWindSpeed_" + dt.getStringDate_fileFriendly() + "_" + ol.name;
-            //fd.drawImagetoPane();  
-            fd.saveImage(FigureData.IMG_FILE_PNG, dir);
-            fd.ProduceGEfiles(true, dir);
-        }//if draw
-
-        return g;
-    }
-
     /**
      * Create a grid representation for emission densities (totals). This is
      * used for manual enfuserGUI work.

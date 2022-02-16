@@ -6,7 +6,6 @@
 package org.fmi.aq.enfuser.ftools;
 
 import org.fmi.aq.essentials.date.Dtime;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +44,7 @@ public class Streamer extends OutputStream {
         }
 
         //streamers
-        File f = new File(dir + "logs" + Z);
+        File f = new File(dir + "logs" + FileOps.Z);
         if (!f.exists()) {
             f.mkdirs();
         }

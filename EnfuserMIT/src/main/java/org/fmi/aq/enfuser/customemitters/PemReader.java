@@ -5,11 +5,10 @@
  */
 package org.fmi.aq.enfuser.customemitters;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import java.io.File;
 import java.util.ArrayList;
 import org.fmi.aq.enfuser.options.FusionOptions;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 
@@ -38,7 +37,7 @@ public class PemReader {
         
         if (file.getName().contains("pointEmBackup")) return allPems;//this directory is not meant to be read.
         
-        EnfuserLogger.log(Level.FINER,PemReader.class,"Reading Point Emitters from "+ file.getParent() + Z);
+        EnfuserLogger.log(Level.FINER,PemReader.class,"Reading Point Emitters from "+ file.getParent() + FileOps.Z);
         ArrayList<String> arr = FileOps.readStringArrayFromFile(file);
         int j = 0;
         for (String line : arr) {

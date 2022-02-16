@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  *This class is to represent an ERCF - Enfuser Run Control File.

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.essentials.shg.CoordinatedVector;
 import org.fmi.aq.essentials.shg.SHGhandler;
 import org.fmi.aq.essentials.shg.SparseGrid;

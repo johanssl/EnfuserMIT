@@ -8,12 +8,12 @@ package org.fmi.aq.enfuser.customemitters;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.options.ERCFarguments;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.interfacing.CloudStorage;
 import java.io.File;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  *
@@ -27,7 +27,7 @@ public class EmitterSynch {
         ERCFarguments rops = ops.getArguments();
         GlobOptions.get().setHttpProxies();
         CloudStorage io = rops.getAWS_S3(true);
-        String targetDir = ops.getDir(FusionOptions.DIR_EMITTERS_REGIONAL) + "temp" + Z;
+        String targetDir = ops.getDir(FusionOptions.DIR_EMITTERS_REGIONAL) + "temp" + FileOps.Z;
         File test = new File(targetDir);
         if (!test.exists()) {
             test.mkdirs();

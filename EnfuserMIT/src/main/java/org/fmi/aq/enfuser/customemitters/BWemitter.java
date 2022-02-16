@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.essentials.gispack.osmreader.colmap.GeoImage;
 import org.fmi.aq.essentials.gispack.osmreader.colmap.MonoColorMap;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import java.io.File;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.parametrization.LightTempoMet;
 
 /**
@@ -35,7 +35,7 @@ public class BWemitter extends AbstractEmitter {
     
         public BWemitter(File file, FusionOptions ops) {
         super(ops);
-        GeoImage gi2 = GeoImage.loadFromKMZ(file.getName(), file.getParent() + Z);
+        GeoImage gi2 = GeoImage.loadFromKMZ(file.getName(), file.getParent() + FileOps.Z);
         MonoColorMap mcm = new MonoColorMap(gi2);
         EnfuserLogger.log(Level.FINER,BWemitter.class,"Black & White -emitter (BW) loaded successfully.");
 

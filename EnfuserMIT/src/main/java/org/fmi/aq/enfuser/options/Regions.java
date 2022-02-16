@@ -7,9 +7,9 @@ package org.fmi.aq.enfuser.options;
 
 import java.io.File;
 import java.util.ArrayList;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 
 /**
@@ -35,7 +35,7 @@ public class Regions {
     public Regions(String ROOT) {
 
         //File f = new File("");
-        String dir = ROOT + "data" + Z + "Regions" + Z;
+        String dir = ROOT + "data" + FileOps.Z + "Regions" + FileOps.Z;
         EnfuserLogger.log(Level.INFO,Regions.class,"region options: " + dir);
         this.ercfs = new ArrayList<>();
         File f = new File(dir);

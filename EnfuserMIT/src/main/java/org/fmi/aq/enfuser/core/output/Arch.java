@@ -7,7 +7,7 @@ package org.fmi.aq.enfuser.core.output;
 
 import org.fmi.aq.enfuser.core.assimilation.AdjustmentBank;
 import org.fmi.aq.interfacing.CloudStorage;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.enfuser.ftools.FuserTools;
 import org.fmi.aq.enfuser.core.AreaFusion;
@@ -30,7 +30,6 @@ import java.util.logging.Level;
 import org.fmi.aq.enfuser.meteorology.HashedMet;
 import org.fmi.aq.enfuser.ftools.Zipper;
 import org.fmi.aq.enfuser.logging.GridQC;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 
 /**
  * The purpose of this class is handle the creation and archiving of hourly
@@ -315,7 +314,7 @@ public class Arch {
             //amazon aws
             if (io != null) {
                 String zipFullName = dir + zipName;
-                String key = args.regName + Z + ens.ops.areaID() + Z + zipName; //e.g., Finland/HKI-METRO/allPollutants_2018-10-01T00-00.zip
+                String key = args.regName + FileOps.Z + ens.ops.areaID() + FileOps.Z + zipName; //e.g., Finland/HKI-METRO/allPollutants_2018-10-01T00-00.zip
                 EnfuserLogger.log(Level.INFO,Arch.class,"AWS3 Put: " + zipFullName + "," + key);
 
                 String privacy = "public";
@@ -393,7 +392,7 @@ public class Arch {
                 System.out.print("\t  ---> it exists.");
 
                 //does it exist in AWS S3?
-                String key = args.regName + Z + ops.areaID() + Z + name; //e.g., Finland/HKI-METRO/arch_2018-10-01T00-00.zip
+                String key = args.regName + FileOps.Z + ops.areaID() + FileOps.Z + name; //e.g., Finland/HKI-METRO/arch_2018-10-01T00-00.zip
                 boolean exists = keys.get(key) != null;
                 EnfuserLogger.log(Level.FINER,Arch.class,"\t the key is " + key + ", exists in AWS? = " + exists);
                 if (!exists || allowReplace) {

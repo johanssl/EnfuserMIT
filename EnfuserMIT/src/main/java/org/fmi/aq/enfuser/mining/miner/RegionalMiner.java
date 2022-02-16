@@ -5,7 +5,7 @@
  */
 package org.fmi.aq.enfuser.mining.miner;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.mining.feeds.Feed;
 import org.fmi.aq.essentials.date.Dtime;
 import org.fmi.aq.enfuser.ftools.Streamer;
@@ -35,7 +35,6 @@ import static org.fmi.aq.enfuser.ftools.FuserTools.tab;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.options.ERCFarguments;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 import javax.net.ssl.HostnameVerifier;
@@ -44,7 +43,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import org.fmi.aq.enfuser.core.EnfuserLaunch;
 import org.fmi.aq.enfuser.mining.feeds.FeedConstructor;
 import org.fmi.aq.enfuser.mining.feeds.FeedFetch;
 import org.fmi.aq.interfacing.GraphicsMod;
@@ -808,8 +806,8 @@ return content;
         String mdir = rargs.getMinerDir();
         String[] cdirs = {
             mdir,
-            mdir+ ERCFarguments.GLOBAL_DIRNAME + Z,
-            mdir+ rargs.regName + Z
+            mdir+ ERCFarguments.GLOBAL_DIRNAME + FileOps.Z,
+            mdir+ rargs.regName + FileOps.Z
         };
 
         for (String cdir : cdirs) {

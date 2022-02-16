@@ -18,8 +18,6 @@ import static org.fmi.aq.essentials.gispack.osmreader.core.Materials.BGN_POPDEN1
 import static org.fmi.aq.essentials.gispack.osmreader.core.Materials.BGN_POPDEN6;
 import org.fmi.aq.essentials.gispack.osmreader.road.RoadPiece;
 import org.fmi.aq.essentials.gispack.utils.AreaNfo;
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
@@ -402,19 +400,6 @@ public class FlowEstimator {
         return g;
     }
 
-    public static void drawFlow_crude(String dir, int classI, Boundaries b, float res_m,
-            HashMap<Integer, RoadPiece> rps, Dtime dt, boolean davg, VisualOptions ops, boolean pane, String name) {
-
-        GeoGrid g = getCrudeLineGrid(b, res_m, rps, dt, DRAW_PROP_DAVG, classI);
-        FigureData fd = new FigureData(g, ops);
-        fd.type = name;
-        fd.saveImage(FigureData.IMG_FILE_PNG, dir);
-        fd.ProduceGEfiles(true, dir);
-        if (pane) {
-            fd.drawImagetoPane();
-        }
-
-    }
 
     public static String getTimeKey(Dtime dt, int hAdd) {
         int wkd = TemporalDef.getWKDindex(dt);

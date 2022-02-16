@@ -9,13 +9,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.options.GlobOptions;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
 import org.fmi.aq.essentials.gispack.osmreader.colmap.ColorMap;
 import org.fmi.aq.essentials.gispack.osmreader.colmap.IntColorMap;
 import org.fmi.aq.essentials.gispack.osmreader.colmap.MonoColorMap;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.interfacing.Imager;
 
 /**
@@ -65,8 +65,8 @@ public class SatPack {
     
     protected static SatPack fromDefaultDir(Boundaries b, String dirAdd) {
         String dir =GlobOptions.get().getRootDir() 
-                + "data" +Z +"visualizationData"+ Z + "rgbMaps"+Z;
-        if (dirAdd!=null) dir+=dirAdd +Z;
+                + "data" +FileOps.Z +"visualizationData"+ FileOps.Z + "rgbMaps"+FileOps.Z;
+        if (dirAdd!=null) dir+=dirAdd +FileOps.Z;
         return new SatPack(dir,b);
     }
   

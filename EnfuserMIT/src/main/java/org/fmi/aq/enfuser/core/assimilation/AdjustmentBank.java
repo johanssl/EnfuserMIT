@@ -5,7 +5,7 @@
  */
 package org.fmi.aq.enfuser.core.assimilation;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.essentials.date.Dtime;
 import static org.fmi.aq.enfuser.options.Categories.CAT_BG;
 import org.fmi.aq.enfuser.core.FusionCore;

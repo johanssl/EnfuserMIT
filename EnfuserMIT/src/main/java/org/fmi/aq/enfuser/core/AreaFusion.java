@@ -20,10 +20,8 @@ import java.util.HashMap;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.essentials.geoGrid.ByteGeoNC;
 import java.util.Collections;
-import org.fmi.aq.enfuser.core.AreaInfo;
 import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
 import org.fmi.aq.enfuser.options.GlobOptions;
-import org.fmi.aq.enfuser.core.receptor.RPconcentrations;
 import org.fmi.aq.enfuser.core.receptor.RP;
 import org.fmi.aq.enfuser.options.VarAssociations;
 import org.fmi.aq.enfuser.options.Categories;
@@ -35,7 +33,6 @@ import java.util.logging.Level;
 import org.fmi.aq.enfuser.datapack.source.DataBase;
 import org.fmi.aq.enfuser.ftools.FuserTools;
 import static org.fmi.aq.enfuser.ftools.FuserTools.arrayConvert;
-import org.fmi.aq.essentials.plotterlib.Visualization.GridDot;
 
 /**
  * This class is for storing of modelled datasets, pollutant concentrations
@@ -966,24 +963,4 @@ public class AreaFusion {
         }
         return false;
     }
-
-    public ArrayList<GridDot> getGridDots(int typeInt, FusionOptions ops, DataBase DB) {
-       ArrayList<GridDot> garr = new ArrayList<>();
-       ArrayList<Observation> arr = this.obs[typeInt];
-       if (arr==null) return garr;
-       
-         for (Observation o : arr) {
-             
-             double val = editPrecision(o.value, 1);
-             String text = "<-- " + val + ops.VARA.UNIT (o.typeInt);
-             GridDot gd = new GridDot(typeInt, o.lat,o.lon,text,(float)val,ops.visOps.dotSize_percent);
-             if (gd.dottable()) {
-                 gd.qualityDotSizeMod(DB,o.ID);
-             }
-             garr.add(gd);
-         }
-         return garr;
-           
-    }
-
 }

@@ -5,7 +5,6 @@
  */
 package org.fmi.aq.essentials.gispack.osmreader.colmap;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
 import static org.fmi.aq.essentials.gispack.osmreader.colmap.GeoImage.loadFromKMZ;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
@@ -180,13 +179,13 @@ public class ColmapProcess {
     public static void HSBlayersToFile(String dir, ColorMap cm) {
         Imager im =new Imager();
         Object img = getHSB_component(cm, HUE);//cm.getHueImage();
-        im.saveImage(dir, img, "hue", FigureData.IMG_FILE_PNG);
+        im.saveImage(dir, img, "hue", Imager.IMG_FILE_PNG);
 
         img = getHSB_component(cm, SATUR);//cm.getSaturationImage();
-        im.saveImage(dir, img, "satur", FigureData.IMG_FILE_PNG);
+        im.saveImage(dir, img, "satur", Imager.IMG_FILE_PNG);
 
         img = getHSB_component(cm, BRIGHT);//getBRimage(cm);
-        im.saveImage(dir, img, "br", FigureData.IMG_FILE_PNG);
+        im.saveImage(dir, img, "br", Imager.IMG_FILE_PNG);
 
     }
 

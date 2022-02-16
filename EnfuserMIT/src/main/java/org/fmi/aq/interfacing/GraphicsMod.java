@@ -5,15 +5,11 @@
  */
 package org.fmi.aq.interfacing;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
-import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import java.util.logging.Level;
-import org.fmi.aq.addons.video.Vidh264;
 import org.fmi.aq.enfuser.core.DataCore;
 
 /**
@@ -39,23 +35,6 @@ public class GraphicsMod  {
    */  
     public void produceVideo(ArrayList<File> imgFiles, String fullName,
             boolean deleteImgs, Object ops, boolean asRunnable) {
-
-        if (ops instanceof VisualOptions) {
-            VisualOptions vops = (VisualOptions) ops;
-            
-            if (asRunnable) {
-                Runnable runnable = new VideoRun(imgFiles, fullName, deleteImgs, vops);
-                Thread thread = new Thread(runnable);
-                thread.start();
-                
-            } else {
-                Vidh264.producePngAvi(imgFiles, fullName, deleteImgs, vops.vid_frames_perS);
-            }
-        } else {
-            EnfuserLogger.log(Level.FINER,this.getClass(),
-                    "GraphicsMod: cannot convert VisualOptions, abort.");
-        }
-
     }
 
     /**
@@ -68,26 +47,6 @@ public class GraphicsMod  {
 
     }
     
-    
-    private class VideoRun implements Runnable {
-        ArrayList<File> imgFiles;
-        String fullName;
-        boolean deleteImgs;
-        int vid_frames_perS;
-        private VideoRun(ArrayList<File> imgFiles, String fullName,
-                boolean deleteImgs, VisualOptions vops) {
-            this.imgFiles = imgFiles;
-            this.fullName = fullName;
-            this.deleteImgs = deleteImgs;
-            this.vid_frames_perS = vops.vid_frames_perS;
-        }
-        
-            @Override
-            public void run() {
-                Vidh264.producePngAvi(imgFiles, fullName, deleteImgs, vid_frames_perS);
-            }
-
-    }
 
   /**
   * Find a JP2000 image file under the given root directory and launch a conversion

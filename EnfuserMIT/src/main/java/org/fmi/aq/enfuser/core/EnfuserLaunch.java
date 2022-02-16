@@ -20,10 +20,10 @@ import org.fmi.aq.essentials.date.Dtime;
 import java.util.ArrayList;
 import java.util.logging.Level;import java.util.logging.Logger;
 import org.fmi.aq.enfuser.core.tasker.RunTask;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.ftools.Streamer;
 import org.fmi.aq.enfuser.options.ModellingArea;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.interfacing.Guard;
 
 /**
@@ -124,8 +124,8 @@ public class EnfuserLaunch {
         String rootdir = GlobOptions.get().getRootDir();
         ArrayList<String> soutFiles = new ArrayList<>();
         
-        String soutf = rootdir + "logs"+Z +"sOut_default.txt";
-        String erf =rootdir + "logs"+Z +"errOut_default.txt";
+        String soutf = rootdir + "logs"+FileOps.Z +"sOut_default.txt";
+        String erf =rootdir + "logs"+FileOps.Z +"errOut_default.txt";
         //delete existing default log files.
             try {
                 File f = new File(soutf);

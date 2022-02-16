@@ -9,8 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  * This class is to manage a schedule for modelling tasks via a configuration
@@ -45,7 +44,7 @@ public class LaunchTriggers {
     */ 
    public static void addLaunchTriggers(Regions regs, String root) {
        
-        String datadir = root + "data"+Z;   
+        String datadir = root + "data"+FileOps.Z;   
         File f = new File(datadir + TRIGGER_FILE);
         if (f.exists()) {
             ArrayList<String> arr = FileOps.readStringArrayFromFile(f.getAbsolutePath());

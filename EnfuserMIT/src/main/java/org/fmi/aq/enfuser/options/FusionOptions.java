@@ -4,9 +4,8 @@
  */
 package org.fmi.aq.enfuser.options;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
+import org.fmi.aq.enfuser.ftools.FileOps;
+import org.fmi.aq.interfacing.VisualOptions;
 import org.fmi.aq.enfuser.datapack.main.Observation;
 import org.fmi.aq.enfuser.parametrization.MetFunction2;
 import org.fmi.aq.essentials.date.Dtime;
@@ -14,12 +13,10 @@ import org.fmi.aq.essentials.geoGrid.Boundaries;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 import org.fmi.aq.enfuser.meteorology.RoughPack;
 import org.fmi.aq.enfuser.datapack.main.TZT;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOpsCreator;
 
 /**
  * This options instance holds all settings necessary for any operation
@@ -550,24 +547,24 @@ public class FusionOptions {
     public void setTypeVisOps(int typeInt) {
         String id = VARA.getVisualizationStyleID(typeInt) +"";
         if (id.contains("<") && id.contains(">")) {//this is actually the instruction itself. 
-            this.visOps = VisualOpsCreator.fromString(id, null);
+            this.visOps = VisualOptions.fromString(id, null);
             return;
         }
-        VisualOptions vop = GlobOptions.get().getScriptedVisualizationOps(id, null);
+        VisualOptions vop = VisualOptions.getScriptedVisualizationOps(id, null);
         if (vop ==null) {
             //try again with defaults
-            vop = GlobOptions.get().getScriptedVisualizationOps("default_style", null);
+            vop = VisualOptions.getScriptedVisualizationOps("default_style", null);
         }
         if (vop!=null)this.visOps = vop;
     }
     
     private String guiAdd() {
-        if (this.guiMode) return "gui"+Z;
+        if (this.guiMode) return "gui"+FileOps.Z;
         return "";
     }
 
     public String defaultOutDir() {
-        String dir= GlobOptions.get().getRootDir()  + "Results" + Z;
+        String dir= GlobOptions.get().getRootDir()  + "Results" + FileOps.Z;
         File f = new File(dir);
         if (!f.exists())f.mkdirs();
         return dir;
@@ -575,7 +572,7 @@ public class FusionOptions {
 
     public String getEmitterDir() {
         String dir = this.getDir(FusionOptions.DIR_DATA_REGIONAL) + "";
-        dir += "emitters" + Z + "gridEmitters" + Z;
+        dir += "emitters" + FileOps.Z + "gridEmitters" + FileOps.Z;
         return dir;
     }
     
@@ -593,13 +590,13 @@ public class FusionOptions {
             
         } else if (dirType == DIR_MAPS_REGIONAL) {
             return g.regionalDataDir(regName) 
-                    + "maps"+ Z;
+                    + "maps"+ FileOps.Z;
             
         } else if (dirType == DIR_EMITTERS_REGIONAL) {
             return g.regionalDataDir(regName) 
-                    +  "emitters" + Z + "gridEmitters" + Z;
+                    +  "emitters" + FileOps.Z + "gridEmitters" + FileOps.Z;
         } else if (dirType == DIR_TEMP) {
-            return g.getRootDir() + "Results" + Z + "COMMON_TEMP" + Z;
+            return g.getRootDir() + "Results" + FileOps.Z + "COMMON_TEMP" + FileOps.Z;
         } else {
             EnfuserLogger.log(Level.SEVERE, FusionOptions.class,
                     "Directory cannot be formed for index "+dirType);
@@ -616,8 +613,8 @@ public class FusionOptions {
         ERCFarguments arg = this.getArguments();
         String masterStorage =  GlobOptions.get().masterRegionalOutDir(null);
         
-        String outdir = masterStorage +arg.regName + Z 
-                + this.runparams.areaID() + Z +guiAdd() + add;
+        String outdir = masterStorage +arg.regName + FileOps.Z 
+                + this.runparams.areaID() + FileOps.Z +guiAdd() + add;
         if (mkdirs) {
            File f = new File(outdir);
            if (!f.exists()) f.mkdirs(); 
@@ -626,10 +623,10 @@ public class FusionOptions {
     } 
     
     public String getPlotsDir() {
-        return this.getBaseEMOdir(true,"plots"+Z);
+        return this.getBaseEMOdir(true,"plots"+FileOps.Z);
     }
         public String getStationLocImageDir() {
-        return this.getBaseEMOdir(true,"locs"+Z);
+        return this.getBaseEMOdir(true,"locs"+FileOps.Z);
     }
   
      /**
@@ -640,21 +637,21 @@ public class FusionOptions {
      * @return 
      */
     public String operationalOutDir() {
-        return this.getBaseEMOdir(true,"run"+Z);
+        return this.getBaseEMOdir(true,"run"+FileOps.Z);
     }
 
     public String statsOutDir(Dtime dt) {
         if (dt==null) {
-            return this.getBaseEMOdir(true,"stats"+Z);
+            return this.getBaseEMOdir(true,"stats"+FileOps.Z);
         }
-        return this.getBaseEMOdir(true,"stats"+Z + dt.year + Z);
+        return this.getBaseEMOdir(true,"stats"+FileOps.Z + dt.year + FileOps.Z);
     }
     
     public String archOutDir(Dtime dt) {
         if (dt==null) {
-            return this.getBaseEMOdir(true,"arch"+Z);
+            return this.getBaseEMOdir(true,"arch"+FileOps.Z);
         }
-        return this.getBaseEMOdir(true,"arch"+Z + dt.year + Z);
+        return this.getBaseEMOdir(true,"arch"+FileOps.Z + dt.year + FileOps.Z);
     }
 
     public String herokuAreaOutDir() {
@@ -665,7 +662,7 @@ public class FusionOptions {
         String allOutForkDir = this.runparams.allOutForkDir();
         if (allOutForkDir==null) return null;
         
-        String dir = allOutForkDir + this.runparams.areaID() + Z;
+        String dir = allOutForkDir + this.runparams.areaID() + FileOps.Z;
         //create dirs if this does not exist yet
         File f = new File(dir);
         f.mkdirs();
@@ -673,8 +670,8 @@ public class FusionOptions {
     }
 
     public String getS5pResultDir(Dtime dt, String varname) {
-        if (varname==null) return this.getBaseEMOdir(true,"S5p"+Z +dt.year+Z);
-        return this.getBaseEMOdir(true,"S5p"+Z +dt.year+Z + varname+Z);
+        if (varname==null) return this.getBaseEMOdir(true,"S5p"+FileOps.Z +dt.year+FileOps.Z);
+        return this.getBaseEMOdir(true,"S5p"+FileOps.Z +dt.year+FileOps.Z + varname+FileOps.Z);
     }
 
     /**
@@ -692,7 +689,7 @@ public class FusionOptions {
         String s = this.runparams.reducedOutForkDir();
         if (s==null) return null;
         
-        s += this.runparams.areaID() + Z;
+        s += this.runparams.areaID() + FileOps.Z;
 
         //create dirs if this does not exist yet
         File f = new File(s);
@@ -715,12 +712,12 @@ public class FusionOptions {
     public String statsCrunchDir(Integer typeInt) {
        
         int yr = this.runparams.end().year;
-        String add =this.statCruchDir+Z
-                + yr +Z;
+        String add =this.statCruchDir+FileOps.Z
+                + yr +FileOps.Z;
         if (this.sc_dir_add!=null && statCruchDir.contains("stat")) {//point run task, there can be many of these for testing purposes for the same year.
-            add+=this.sc_dir_add+Z;
+            add+=this.sc_dir_add+FileOps.Z;
         }
-        if(typeInt!=null) add+= VARA.VAR_NAME(typeInt) + Z;
+        if(typeInt!=null) add+= VARA.VAR_NAME(typeInt) + FileOps.Z;
 
         return this.getBaseEMOdir(true,add);
     }
@@ -730,19 +727,19 @@ public class FusionOptions {
         int yr = this.runparams.end().year;
         int month = this.runparams.end().month_011+1;
         if (forcedMonth!=null) month = forcedMonth;
-        String add = "monthlyGrids" + Z + yr +Z  
-                +month +Z;
-        if (components) add +="components"+Z;
-        if (temp) add+="temp"+Z;
+        String add = "monthlyGrids" + FileOps.Z + yr +FileOps.Z  
+                +month +FileOps.Z;
+        if (components) add +="components"+FileOps.Z;
+        if (temp) add+="temp"+FileOps.Z;
         return this.getBaseEMOdir(true,add);
     }
         
     public String getRegionalNeuralDir(String usecase, String var, String cat) {
        String dir = this.getDir(FusionOptions.DIR_DATA_REGIONAL) 
-             + "neural"+Z +usecase+Z;
+             + "neural"+FileOps.Z +usecase+FileOps.Z;
        
-            if (var!=null) dir  +=var +Z;
-            if (cat!=null)dir+=cat +Z;
+            if (var!=null) dir  +=var +FileOps.Z;
+            if (cat!=null)dir+=cat +FileOps.Z;
        File f = new File(dir);
        if (!f.exists()) f.mkdirs();
        return dir;

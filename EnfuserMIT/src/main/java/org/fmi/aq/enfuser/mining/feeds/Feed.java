@@ -39,12 +39,12 @@ import java.util.logging.Level;
 import static org.fmi.aq.enfuser.mining.feeds.FeedConstructor.CREDENTALS_NONE;
 import static org.fmi.aq.enfuser.mining.feeds.FeedConstructor.CREDENTALS_UP;
 import org.fmi.aq.enfuser.datapack.reader.FileReader;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import static org.fmi.aq.enfuser.mining.feeds.HourlyInterpolator.interpolateMissingLayers;
 import org.fmi.aq.enfuser.options.RunParameters;
 import org.fmi.aq.enfuser.options.VarAssociations;
 import org.fmi.aq.enfuser.logging.Parser;
 import org.fmi.aq.essentials.gispack.Masks.MapPack;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.interfacing.Feeder;
 
 /**
@@ -825,7 +825,7 @@ public abstract class Feed {
             File f = new File(dir);
             arr.add(f);
             for (int y:yrs) {
-                String yrdir = dir + y +Z;
+                String yrdir = dir + y +FileOps.Z;
                 File yf = new File(yrdir);
                 if (yf.exists()) arr.add(yf);
                

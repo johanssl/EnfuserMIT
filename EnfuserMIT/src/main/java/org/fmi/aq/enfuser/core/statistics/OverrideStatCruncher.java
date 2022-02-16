@@ -8,7 +8,7 @@ package org.fmi.aq.enfuser.core.statistics;
 import java.io.File;
 import org.fmi.aq.enfuser.core.assimilation.HourlyAdjustment;
 import org.fmi.aq.enfuser.core.assimilation.AdjustmentBank;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import org.fmi.aq.enfuser.meteorology.Met;
 import org.fmi.aq.essentials.date.Dtime;
 import java.util.ArrayList;

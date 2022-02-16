@@ -5,7 +5,7 @@
  */
 package org.fmi.aq.enfuser.core.setup;
 
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import static org.fmi.aq.essentials.gispack.utils.Tools.editPrecision;
 import static org.fmi.aq.enfuser.ftools.FastMath.degreeInMeters;
 import org.fmi.aq.essentials.geoGrid.Boundaries;
@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import org.fmi.aq.enfuser.ftools.Zipper;
 import org.fmi.aq.enfuser.options.ERCF;
 import org.fmi.aq.enfuser.options.GlobOptions;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 
 /**
  *
@@ -77,7 +76,7 @@ public class Setup {
             lines.add(ar);
         }
         
-        String dataDir = GlobOptions.get().dataDirCommon() +"Regions"+ Z;
+        String dataDir = GlobOptions.get().dataDirCommon() +"Regions"+ FileOps.Z;
         File test = new File(dataDir);
         if (!test.exists()) test.mkdirs();
        

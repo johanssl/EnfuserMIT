@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,27 +20,25 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import org.fmi.aq.enfuser.core.AreaFusion;
 import org.fmi.aq.enfuser.core.FusionCore;
-import org.fmi.aq.enfuser.options.FusionOptions;
-import org.fmi.aq.enfuser.options.GlobOptions;
-import org.fmi.aq.enfuser.logging.EnfuserLogger;
-import org.fmi.aq.essentials.geoGrid.Boundaries;
+import org.fmi.aq.essentials.geoGrid.GeoGrid;
+import org.fmi.aq.essentials.gispack.Masks.MapPack;
 import org.fmi.aq.essentials.gispack.osmreader.colmap.ColorMap;
 import org.fmi.aq.essentials.gispack.osmreader.core.AllTags;
 import static org.fmi.aq.essentials.gispack.osmreader.core.AllTags.DATA_ROW;
 import static org.fmi.aq.essentials.gispack.osmreader.core.AllTags.IND_COLOR;
-import org.fmi.aq.essentials.gispack.osmreader.core.OsmLayer;
-import org.fmi.aq.essentials.plotterlib.Visualization.FigureData;
-import static org.fmi.aq.essentials.plotterlib.Visualization.FigureData.fileTypes;
-import org.fmi.aq.essentials.plotterlib.Visualization.GEProd;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOpsCreator;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
 
 /**
  *This class is to handle Image creation and reading (e.g., java.awt work)
  * @author johanssl
  */
 public class Imager {
+ 
+    //fileTypes
+    public static final int IMG_FILE_PNG = 0;
+    public static final int IMG_FILE_JPG = 1;
+    public static final String[] fileTypes = {"PNG", "JPG"};
 
     private BufferedImage img;
     int imgW=-1;
@@ -48,12 +47,8 @@ public class Imager {
     public Imager() {
         
     }
-    public void pixelsIntoImage(int H, int W, int[] npix, Boundaries b,
-            String dir, String name, boolean preserve) {
-      BufferedImage pixelImage = new BufferedImage(W, H, BufferedImage.TYPE_INT_ARGB);
-        pixelImage.setRGB(0, 0, W, H, npix, 0, W);
-        GEProd.imageToKMZ(pixelImage, dir, b, name, true);
-    }
+
+
 
    /**
    * Read pixel rgb-values into integer array.
@@ -158,37 +153,6 @@ public class Imager {
     public void dataToImageFrame(float[][] dat, Object bounds, Object en,
             String visOpsString, boolean exitOnClose) {
         
-        Boundaries b;
-        if (bounds==null) {
-            b = Boundaries.getDefault();
-        } else {
-            b = (Boundaries)bounds;
-        }
-        OsmLayer ol = null;
-        
-        if (en!=null) {
-            FusionCore ens = (FusionCore)en;
-            ol = ens.mapPack.getOsmLayer( b.getMidLat(), b.getMidLon());
-        }
-        
-        //create visual options. It can be a recipee
-        VisualOptions vops;
-        String recipee = GlobOptions.get().getVisualizationInstruction(visOpsString);
-        if (recipee !=null) {
-          vops =  VisualOpsCreator.fromString(recipee,ol); 
-        } else {
-          vops = VisualOpsCreator.fromString(visOpsString, ol);  
-        }
-
-        FigureData fd = new FigureData(dat,b,vops);
-        BufferedImage buff = fd.getBufferedImage();
-        
-        JFrame frame = new JFrame();
-            JLabel label = new JLabel(new ImageIcon(buff));
-            frame.getContentPane().add(label, BorderLayout.CENTER);
-            frame.pack();
-            frame.setVisible(true);
-            if (exitOnClose)frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void imageToFrame(BufferedImage buff, boolean exitOnClose) {
@@ -258,5 +222,36 @@ public class Imager {
     public void createWeeklyPlots(Object ops) {
     }
 
+
+     public static boolean canVisualize() {
+        return false;
+    }
+
+    public static void graphicEnfuserOutput(FusionCore ens, ArrayList<AreaFusion> afs,
+            ArrayList<Integer> nonMet_typeInts) {
+
+    }
+
+      /**
+     * Visualize the given raster data and store a PNG to the given directory.
+     * @param dir the directory for PNG creation
+     * @param g the data to be visualized
+     * @param styleTag a tag that is used to fetch visualization instructions
+     * from visualizationInstructions.csv
+     * @param txt [fileNamePart, above color bar, header]
+     * @param mp Maps for background rendering
+     * @param toPane if true, then the visualization is shown in a pop-up JPanel.
+     * @param kmz if true then a KMZ file is produced
+     * @param customMinMax in non-null, then a custom min,max range is set.
+     * @param curver if non-null then this gives the gradient progression curvature.
+     * 1: linear, 2: emphasizes low values. 0.5: emphasize large values.
+     */
+    public static void visualize(String dir, GeoGrid g, String styleTag,
+            String[] txt, MapPack mp, boolean toPane, boolean kmz,
+            double[] customMinMax, Double curver) {
+
+    }
+
+    
 
 }

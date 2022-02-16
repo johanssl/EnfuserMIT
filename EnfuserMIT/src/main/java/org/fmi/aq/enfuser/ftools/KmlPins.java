@@ -5,8 +5,8 @@
  */
 package org.fmi.aq.enfuser.ftools;
 
-import static org.fmi.aq.essentials.plotterlib.Visualization.FileOps.deleteFile;
-import static org.fmi.aq.essentials.plotterlib.Visualization.FileOps.lines_to_file;
+import static org.fmi.aq.enfuser.ftools.FileOps.deleteFile;
+import static org.fmi.aq.enfuser.ftools.FileOps.lines_to_file;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

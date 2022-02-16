@@ -20,7 +20,7 @@ import java.util.zip.ZipInputStream;
 import org.fmi.aq.essentials.netCdf.NetcdfHandle;
 import org.fmi.aq.enfuser.options.FusionOptions;
 import org.fmi.aq.enfuser.options.GlobOptions;
-import static org.fmi.aq.essentials.plotterlib.Visualization.FileOps.readStringArrayFromFile;
+import static org.fmi.aq.enfuser.ftools.FileOps.readStringArrayFromFile;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
 

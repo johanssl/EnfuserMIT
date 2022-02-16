@@ -12,14 +12,10 @@ import org.fmi.aq.essentials.geoGrid.Boundaries;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 import static org.fmi.aq.enfuser.ftools.FuserTools.correctDir;
-import static org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions.Z;
 import org.fmi.aq.enfuser.logging.EnfuserLogger;
 import java.util.logging.Level;
-import org.fmi.aq.essentials.gispack.osmreader.core.OsmLayer;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOpsCreator;
-import org.fmi.aq.essentials.plotterlib.Visualization.VisualOptions;
 import org.fmi.aq.interfacing.Guard;
 
 /**
@@ -206,16 +202,16 @@ public class GlobOptions {
         String dir = this.args.get(I_CUSTOM_MINER_DIR);
         if (dir==null) {
             String io = defaultIOroot();
-            dir = io + DEF_MINER_DIR +Z;
+            dir = io + DEF_MINER_DIR +FileOps.Z;
         }
         
-        if (regName!=null) dir+=regName+Z;
+        if (regName!=null) dir+=regName+FileOps.Z;
         return dir;
     }
     
     public String dataDirCommon() {
         
-        String dir = this.getRootDir() + "data" +Z;
+        String dir = this.getRootDir() + "data" +FileOps.Z;
         return dir;
     }
 
@@ -225,15 +221,15 @@ public class GlobOptions {
        
         if (regionFromArchives) {
             String dir = this.enfuserArchiveDir(regName);
-            dir += EA_ADD +Z;
+            dir += EA_ADD +FileOps.Z;
             //it is possible that this directory does not exist yet
             //File f = new File(dir);
             //if (!f.exists()) f.mkdirs();
             
             return dir;
         } else {
-            String dir = this.getRootDir() +"data" +Z +"Regions"+ Z;
-            if (regName!=null)dir+= regName+Z;
+            String dir = this.getRootDir() +"data" +FileOps.Z +"Regions"+ FileOps.Z;
+            if (regName!=null)dir+= regName+FileOps.Z;
             //File f = new File(dir);
             //if (!f.exists()) f.mkdirs();
             
@@ -245,8 +241,8 @@ public class GlobOptions {
     public String masterRegionalOutDir(String regName) {
         String io = defaultIOroot();
         
-        String dir = io + DEF_MASTER_OUT +Z;
-        if (regName!=null) dir+=regName+Z;
+        String dir = io + DEF_MASTER_OUT +FileOps.Z;
+        if (regName!=null) dir+=regName+FileOps.Z;
         return dir;
     }
     
@@ -548,7 +544,7 @@ public class GlobOptions {
         String test = args.get(I_S2_DIR);
 
         if (test!=null && test.contains("*")) {
-            return defaultIOroot() +"overpassOSM"+Z +"S2_archive" + Z;
+            return defaultIOroot() +"overpassOSM"+FileOps.Z +"S2_archive" + FileOps.Z;
         }
         
         if (test != null) {
@@ -559,8 +555,8 @@ public class GlobOptions {
    }
    
     public String overpassOSMdir(boolean trueRoot) {
-        String test = defaultIOroot() +"overpassOSM"+Z;
-        if (trueRoot) test = getRootDir() +"overpassOSM"+Z;
+        String test = defaultIOroot() +"overpassOSM"+FileOps.Z;
+        if (trueRoot) test = getRootDir() +"overpassOSM"+FileOps.Z;
         File f = new File(test);
         if (!f.exists()) f.mkdirs();
         return test;
@@ -592,7 +588,7 @@ public class GlobOptions {
         }
         
         if (test!=null && test.contains("*")) {
-            return defaultIOroot() +"overpassOSM"+Z +"SRTM_archive" + Z;
+            return defaultIOroot() +"overpassOSM"+FileOps.Z +"SRTM_archive" + FileOps.Z;
         }
         
         if (test != null) {
@@ -617,7 +613,7 @@ public class GlobOptions {
             EnfuserLogger.log(Level.FINER,this.getClass(),"Define this by adding a line: " + args.get(I_SRTM_DIR) + "='value' ");
 
             EnfuserLogger.log(Level.FINER,this.getClass(),"Creating a directory at root (SRTM_archive)");
-            String dir = defaultIOroot() +"overpassOSM"+Z +"SRTM_archive" + Z;
+            String dir = defaultIOroot() +"overpassOSM"+FileOps.Z +"SRTM_archive" + FileOps.Z;
             EnfuserLogger.log(Level.FINER,this.getClass(),dir);
             File fdir = new File(dir);
             fdir.mkdirs();
@@ -638,70 +634,6 @@ public class GlobOptions {
     }
 
 
-    public VisualOptions getScriptedVisualizationOps(String s, OsmLayer ol) {
-        try {
-            String recipee = getVisualizationInstruction(s);
-            if (recipee==null) return null;
-            return VisualOpsCreator.fromString(recipee,ol);
-            
-        } catch (Exception e) {
-             EnfuserLogger.log(e,Level.WARNING,this.getClass(),
-                  "Visualization options script error! " +s);
-        }
-        return null;
-    }
-    
-    
-    private final static String VOPS_FILE ="visualizationInstructions.csv";
-    /**
-     * Read pre-defined visualization instructions from a file, using a key
-     * for ID matching. Main use-case: mapFUSER visualizations.
-     * @param key the key for ID matching
-     * @return String recipe for VisualiOpsCreator. Return null if key was not
-     * matched.
-     */
-    public String getVisualizationInstruction(String key) {
-      String fname = getRootDir() +"data"+Z + VOPS_FILE;
-      File f = new File(fname);
-      if (f.exists()) {
-          try {
-              ArrayList<String> arr = FileOps.readStringArrayFromFile(f);
-              EnfuserLogger.log(Level.FINER,this.getClass(),
-                      "Attempting visualization recipee search for "+key);
-              for (String s:arr) {
-                  String[] split = s.split(";");
-                  String test = split[0];
-                  String val = split[1];
-                  if (test.equals(key)) {
-                      EnfuserLogger.log(Level.FINER,this.getClass(),
-                              "visualInstructions: found "+key +" -> "+ val);
-                      return val;
-                  }
-              }
-              
-              
-              //did not find with match, try contains
-              for (String s:arr) {
-                  String[] split = s.split(";");
-                  String test = split[0];
-                  String val = split[1];
-                  if (test.contains(key) || key.contains(test)) {
-                      EnfuserLogger.log(Level.FINER,this.getClass(),
-                              "visualInstructions: found "+key +" -> "+ val);
-                      return val;
-                  }
-              }
-              
-          }catch (Exception e) {
-              
-          }
-   
-      } else {
-          EnfuserLogger.log(Level.FINER,this.getClass(),
-                  "File does not exist? "+ f.getAbsolutePath());
-      }
-       return null; 
-    }
 
 
     public Level getLoggingLevel() {

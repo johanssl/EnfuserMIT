@@ -21,7 +21,7 @@ import org.fmi.aq.enfuser.logging.Parser;
 import org.fmi.aq.enfuser.mining.feeds.Feed;
 import org.fmi.aq.enfuser.mining.feeds.FeedConstructor;
 import org.fmi.aq.essentials.gispack.Masks.MapPack;
-import org.fmi.aq.essentials.plotterlib.Visualization.FileOps;
+import org.fmi.aq.enfuser.ftools.FileOps;
 
 /**
  *
